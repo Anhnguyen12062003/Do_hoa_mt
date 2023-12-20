@@ -1,0 +1,152 @@
+//Hình ngôi sao
+//#include <GL/gl.h>
+//#include <GL/glut.h>
+//#include <GL/glu.h>
+//#include <math.h>
+//void display(void){
+//	GLfloat step = 3.14 /5.0; // 1 pi chia thanh 5 goc cua ngoi sao 5 canh, tuc là 1 canh chia thanh 2 goc
+//	register int i; //chi so dinh cua ngoi sao 5 canh (co 10 dinh)
+//	GLfloat angle, r; //goc va ban kinh
+//	glClear (GL_COLOR_BUFFER_BIT); // xoa noi dung bo dem mau de cua so tro ve trang thasi mau sac ban dau
+//	glColor3f(1.0, 0.75, 0.0); //thiet lap mau sac cho cac hinh sau RGB
+//	glBegin(GL_LINE_LOOP); // duong gap khuc khep kin
+//	/*day la cach tinh toa do cau tung dinh ma khong can lam thu cong*/
+//		for(i = 0; i < 10; ++i){
+//	/* tuc la neu chi so dinh ma chan thi ban kinh duong tron nho ben trong la 5 va nguoc lai*/
+//			r = (i%2 == 0 ? 7 : 15);
+//			angle = i * step; // tinh goc
+//			glVertex3f(r * cos(angle), r * sin(angle), 0.0); // tinh toa do dua vao cos(khong ham), sin(di hoc)
+//		}
+//	glEnd();
+//	glFlush();
+//
+//}
+//
+//void init (void){
+//	glClearColor(0.0, 0.0, 0.0, 0.0);
+//	glMatrixMode(GL_PROJECTION);
+//	glLoadIdentity();
+//
+//	//trai, phai, duoi, tren, gan, xa
+//	glOrtho(-15.0, 15.0, -15.0, 15.0, -1.0, 1.0); // cac hinh ve chi hien ra khi nam trong toa do cua no
+//}
+//
+//int main(int argc, char** argv){
+//	glutInit(&argc, argv);
+//	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+//	glutInitWindowSize(250, 250); // kich thuoc cua so
+//	glutInitWindowPosition(700, 300); // vi tri ma cua so xuat hien
+//	glutCreateWindow ("hello"); // tao tieu de cho cua so
+//	init();
+//	glutDisplayFunc(display); // cau lenh nay chi duoc phep goi 1 lan
+//	glutMainLoop();
+//	return 0;
+//
+//}
+
+
+
+// Ve duong thanh noi hai diem
+//#include <GL/gl.h>
+//#include <GL/glut.h>
+//#include <GL/glu.h>
+//#include <math.h>
+//void display(void){
+//	glClear (GL_COLOR_BUFFER_BIT); // xoa noi dung bo dem mau de cua so tro ve trang thasi mau sac ban dau
+//	glColor3f(1.0, 0.0, 0.0); //thiet lap mau sac cho cac hinh sau RGB
+//	glBegin(GL_LINES); // ve diem
+//		glVertex3f(1.0, 1.0, 0.0);
+//		glVertex3f(2.0, 5.0, 0.0);
+//	glEnd();
+//	glFlush();
+//
+//}
+//
+//void init (void){
+//	glClearColor(1.0, 1.0, 1.0, 1.0);
+//	glMatrixMode(GL_PROJECTION);
+//	glLoadIdentity();
+//
+//	//trai, phai, duoi, tren, gan, xa
+//	glOrtho(-15.0, 15.0, -15.0, 15.0, -1.0, 1.0); // cac hinh ve chi hien ra khi nam trong toa do cua no
+//}
+//
+//int main(int argc, char** argv){
+//	glutInit(&argc, argv);
+//	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+//	glutInitWindowSize(250, 250); // kich thuoc cua so
+//	glutInitWindowPosition(700, 300); // vi tri ma cua so xuat hien
+//	glutCreateWindow ("hello"); // tao tieu de cho cua so
+//	init();
+//	glutDisplayFunc(display); // cau lenh nay chi duoc phep goi 1 lan
+//	glutMainLoop();
+//	return 0;
+//
+//}
+
+
+
+//Ve hinh tron
+#include <GL/gl.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
+#include <math.h>
+void display(void) {
+	int numSegments = 100; // so dinh du doan cua duong tron
+	GLfloat step = 2.0f * 3.14 /float(numSegments);
+	GLfloat angle, r = 5; //goc va ban kinh
+	glClear (GL_COLOR_BUFFER_BIT); // xoa noi dung bo dem mau de cua so tro ve trang thasi mau sac ban dau
+	glColor3f(1.0, 0.75, 0.0); //thiet lap mau sac cho cac hinh sau RGB
+	glBegin(GL_TRIANGLE_FAN); // hinh quat
+	/*day la cach tinh toa do cau tung dinh ma khong can lam thu cong*/
+	glVertex3f(0.0, 0.0, 0.0); //dinh trung tam
+
+	for(int i = 0; i <= numSegments; ++i) {
+		/* tuc la neu chi so dinh ma chan thi ban kinh duong tron nho ben trong la 5 va nguoc lai*/
+		angle = i * step; // tinh goc
+		glVertex3f(r * cos(angle), r * sin(angle), 0.0); // them toa do dinh vao duong tron = cos(khong ham), sin(di hoc)
+	}
+	glEnd();
+	glFlush();
+
+}
+
+void init (void) {
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	//trai, phai, duoi, tren, gan, xa
+	glOrtho(-15.0, 15.0, -15.0, 15.0, -1.0, 1.0); // cac hinh ve chi hien ra khi nam trong toa do cua no
+}
+
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(250, 250); // kich thuoc cua so
+	glutInitWindowPosition(700, 300); // vi tri ma cua so xuat hien
+	glutCreateWindow ("hello"); // tao tieu de cho cua so
+	init();
+	glutDisplayFunc(display); // cau lenh nay chi duoc phep goi 1 lan
+	glutMainLoop();
+	return 0;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

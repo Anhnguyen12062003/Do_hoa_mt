@@ -1,0 +1,504 @@
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+/* Khởi tạo */
+
+GLfloat anpha = 0.0;
+GLfloat beta = 0.0;
+GLfloat x = 0.0;
+GLfloat n = 0.0009;
+GLUquadricObj* p = gluNewQuadric();
+
+
+void init(void)
+{
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glEnable(GL_DEPTH_TEST); // bật chức năng cho phép loại bỏ một phần của đối tượng bị che bởi đối tượng khác
+	//glShadeModel(GL_FLAT);
+
+		// khởi động nguồn sáng
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0); //bật nguồn sáng light0
+
+	GLfloat mat_ambient[] = { 1.0 ,1.0 ,1.0 ,1.0 }; // 
+	GLfloat mat_diffuse[] = { 1.0 ,1.0 ,1.0 ,1.0 };
+	GLfloat mat_specular[] = { 1.0 ,1.0 ,1.0 ,1.0 };
+	GLfloat mat_shininess[] = { 100.0 };
+
+	GLfloat light_ambient[] = { 0.0 ,0.0 ,0.0 ,1.0 }; // 
+	GLfloat light_diffuse[] = { 0.5 ,0.5 ,0.5 ,1.0 };
+	GLfloat light_specular[] = { 1.0 ,1.0 ,1.0 ,1.0 };
+	GLfloat light_position[] = { 5.0 ,5.0 ,5.0 ,0.0 };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+//	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+//	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+
+}
+
+//đầu
+void head() {
+
+	//tai phải
+	glColor3d(0, 1, 0);
+	glPushMatrix();
+	glTranslated(0.2, 2.58, 0);
+	glRotated(-90, 1, 0, 0);
+	glutSolidCone(0.1, 0.5, 4, 4); //2,2
+	glPopMatrix();
+
+	//tai trái
+	glColor3d(0, 1, 0);
+	glPushMatrix();
+	glTranslated(-0.2, 2.58, 0);
+	glRotated(-90, 1, 0, 0);
+	glutSolidCone(0.1, 0.5, 4,4);
+	glPopMatrix();
+
+	//đầu
+	glColor3d(209.0 / 255, 209.0 / 255, 209.0 / 255);
+	glPushMatrix();
+	glTranslatef(0, 2, 0);
+	glutSolidCube(1.2);
+	glPopMatrix();
+
+	//mắt phải
+	glColor3d(1,1,0);
+	glPushMatrix();
+	glTranslatef(0.3, 2.25, 0.7); //0.18
+	glutSolidSphere(0.14,20,20);
+	glPopMatrix();
+
+	//mắt trái
+	glColor3d(1, 1, 0);
+	glPushMatrix();
+	glTranslatef(-0.3, 2.25, 0.7);
+	glutSolidSphere(0.14, 20, 20); //0.06
+	glPopMatrix();
+
+	//miệng
+	glColor3d(1, 0, 1);
+	glPushMatrix();
+	glTranslatef(0, 1.7, 0.6);
+	glScaled(0.8, 0.2, 0.5);
+	glutSolidCube(0.5);
+	glPopMatrix();
+}
+
+//cổ
+void neck() {
+	//cổ
+	glColor3f(1, 0, 0);
+	glPushMatrix();
+	glTranslated(0, 1.35, 0);
+	glScaled(0.6, 0.6, 0.6);
+	glutSolidCube(1);
+	glPopMatrix();
+}
+
+//thân
+void body() {
+	//thân
+	glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	glPushMatrix();
+	glTranslated(0, 0.1, 0);
+	glScalef(1, 1.2, 1);
+	glutSolidCube(1.8); //1.7
+	glPopMatrix();
+
+	//ổ pin
+	glColor3f(126.0 / 255, 163.0 / 255, 227.0 / 255);
+	glPushMatrix();
+	glTranslated(0, 0.5, 0.7);
+	glutSolidCube(0.6);
+	glPopMatrix();
+
+}
+
+//tay trái
+void handleft() {
+
+	 //tay
+	glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	glPushMatrix();
+	glTranslatef(-1.25, 0.2, 0); //1.35
+	glScaled(0.35, 1.0, 0.35); //1.2
+	glutSolidCube(1);
+	glPopMatrix();
+
+	//khớp
+	glColor3d(1, 1, 0);
+	glPushMatrix();
+	glTranslatef(-1.25, -0.37, 0); //0.37
+	glutSolidSphere(0.2, 20, 20); //0.06
+	glPopMatrix();
+
+	//tay
+	glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	glPushMatrix();
+	glTranslatef(-1.25, -1.1, 0); //1.35 , -0.95
+	glScaled(0.35, 1.2, 0.35);//1.0
+	glutSolidCube(1);
+	glPopMatrix();
+
+	////bàn tay
+	glColor3d(1, 1, 0);
+	glPushMatrix();
+	glTranslatef(-1.25, -1.8, 0); //1.2, -1.7
+	glutSolidSphere(0.2, 20, 20); //0.06
+	glPopMatrix();
+}
+
+//tay phải
+ void handright() {
+	 //tay
+	 glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(1.25, 0.2, 0); //1.35
+	 glScaled(0.35,1.0,0.35); //1.2
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //khớp
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(1.25, -0.4, 0); //-0.35
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+	 //tay
+	 glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(1.25, -1.1, 0); //1.35, -0.95
+	 glScaled(0.35, 1.2, 0.35); //1.0
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 ////bàn tay
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(1.25, -1.8, 0); //1.2, -1.5
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+}
+
+//chân trái
+ void legleft() {
+	 //đùi
+	 glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(-0.4, -1.72, 0);
+	 glScaled(0.5, 1.2, 0.5);
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //khớp
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(-0.4, -2.5, 0); //-2.4
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+	 //chân
+	 glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(-0.4, -3.28, 0); //-3.1
+	 glScaled(0.5, 1.4, 0.5); //1.2
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 ////bàn chân
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(-0.4, -4.1, 0); //-3.8
+	 glScaled(0.5, 0.3, 0.8);
+	 glutSolidSphere(0.6, 20, 20); //0.06
+	 glPopMatrix();
+}
+
+//chân phải
+ void legright() {
+	 //khớp
+	 //glColor3d(1, 1, 0);
+	 //glPushMatrix();
+	 //glTranslatef(0.4, -0.85, 0);
+	 //glutSolidSphere(0.3, 20, 20); //0.06
+	 //glPopMatrix();
+
+	 //đùi
+	 glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(0.4,-1.72,0);
+	 glScaled(0.5, 1.2, 0.5);
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //khớp
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	glTranslatef(0.4, -2.5, 0); //
+	glutSolidSphere(0.2, 20, 20); //0.06
+	glPopMatrix();
+
+	//chân
+	glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	glPushMatrix();
+	glTranslatef(0.4, -3.28, 0); //
+	glScaled(0.5, 1.4, 0.5); //1.2
+	glutSolidCube(1);
+	glPopMatrix();
+
+	 //bàn chân
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(0.4, -4.1, 0); //
+	 glScaled(0.5, 0.3, 0.8);
+	 glutSolidSphere(0.6, 20, 20); //0.06
+	 glPopMatrix();
+
+ }
+
+ void robot() {
+	 head();
+	 neck();
+	 body();
+
+	 ////khớp tay trái
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(-1, 0.8, 0);
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+	 ////khớp tay phải
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(1, 0.8, 0);
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+	 //khớp chân trái
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(-0.4, -0.85, 0);
+	 glutSolidSphere(0.3, 20, 20); //0.06
+	 glPopMatrix();
+
+	 //khớp chân phải
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(0.4, -0.85, 0);
+	 glutSolidSphere(0.3, 20, 20); //0.06
+	 glPopMatrix();
+ }
+
+ //tay gaapj
+ void taygapphai() {
+	 //tay
+	 glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(1.25, 0.2, 0); //1.35
+	 glScaled(0.35, 1.0, 0.35); //1.2
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //khớp
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(1.25, -0.35, 0);
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+	 //tay
+	 glColor3f(120.0 / 255, 120.0 / 255, 120.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(1.25, -0.6, 0.6); //1.35
+	 glRotatef(90, 1, 0, 0);
+	 glScaled(0.35, 1.2, 0.35); //1.0
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //bàn tay
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(1.25, -0.6, 1.25); //1.2
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+
+ }
+
+ //chân phải
+ void chanphai() {
+	 //đùi
+	 glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(0.4, -1.72, 0);
+	 glScaled(0.5, 1.2, 0.5);
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //khớp
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(0.4, -2.4, 0); //
+	 glutSolidSphere(0.2, 20, 20); //0.06
+	 glPopMatrix();
+ }
+
+ //khớp chân
+ void khopchanphai() {
+	 //chân
+	 glColor3f(128.0 / 255, 128.0 / 255, 128.0 / 255);
+	 glPushMatrix();
+	 glTranslatef(0.4, -3.1, 0); //
+	 glScaled(0.5, 1.4, 0.5); //1.2
+	 glutSolidCube(1);
+	 glPopMatrix();
+
+	 //bàn chân
+	 glColor3d(1, 1, 0);
+	 glPushMatrix();
+	 glTranslatef(0.4, -3.8, 0); //
+	 glScaled(0.5, 0.3, 0.8);
+	 glutSolidSphere(0.6, 20, 20); //0.06
+	 glPopMatrix();
+
+}
+
+
+ void dichuyen(void)
+ {
+	 static float mf = 0.05;
+
+	 beta += mf;
+
+	 if (beta > 17.0) { //15
+		 mf = -0.1;
+	 }
+	 if (beta < -17.0) { //-5
+		 mf = 0.10;
+	 }
+	 
+	 glutPostRedisplay();
+ }
+ 
+/* hàm vẽ */
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	robot();
+
+	//glPushMatrix();
+	////robot();
+	//glRotatef(beta, 1, 0, 0);
+	//taygap();
+	//glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(0, anpha, 0.0);
+	
+	anpha += n;
+	if (anpha <=-0.5) {
+		n = 0.0009;
+	}
+	else if (anpha >=0.25) {
+		n = -0.0009;
+	}
+	//glRotated(-beta, 1.0, 0.0, 0.0f);
+	robot();
+	//body();
+	legleft();
+	legright();
+
+	//tay trái
+	glPushMatrix();
+	//glTranslated(-0.30, 1.0, 0.0);
+	////glRotated(-120, 1, 0, 0);
+	//glRotated(beta, 1.0, 0.0, 0.0f);
+	//glTranslated(0.30, -1.0, 0.0);
+	glTranslated(-2.5, 1, 0.0);
+	glRotated(-160, 0, 0, 1);
+	glRotated(-beta, 1.0, 0.0, 0.0f);
+	handleft(); //
+	glPopMatrix();
+
+	//tay phải
+	glPushMatrix();
+	//glTranslated(2.5, 1, 0.0);
+	//glRotated(160, 0, 0, 1);
+	glTranslated(0, 0.2, 0);
+	glRotated(-beta, 1.0, 0.0, 0.0f); //-beta, 1.0, 0.0, 0.0f
+	//glTranslated(-0.30, -1.0, 0.0);
+	handright();
+	glPopMatrix();
+	glPopMatrix();
+	//chân trái
+	/*glPushMatrix();
+	glRotated(-beta, 1.0, 0.0, 0.0f);
+	legleft();
+	glPopMatrix();*/
+
+	//chân phải
+	/*glPushMatrix();
+	glRotated(beta, 1.0, 0.0, 0.0f);
+	legright();
+	glPopMatrix();*/
+
+//	di chuyeenr
+	//glPushMatrix();
+	//glRotatef(beta, 1, 0, 0);
+	//legleft();
+	//glPopMatrix();
+	//glPushMatrix();
+	//glRotatef(-beta, 1, 0, 0);
+	//legright();
+	//glPopMatrix();
+
+	//	xoay đầu
+	//glPushMatrix();
+	//glRotatef(-beta, 0, 0, 1);
+	//head();
+	//neck();
+	//glPopMatrix();
+
+	glFlush();
+}
+/* xử lý khi cửa sổ bị thay đổi */
+void reshape(int w, int h)
+{
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h); // thay đổi kích thước viewport
+	/* xét thao tác trên chiếu */
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0); // thực hiện phép chiếu phối cảnh
+	/* xét thao tác trên ModelView */
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 4, 10,0, 0, 0, 0, 10, 0);
+
+
+}
+int main(int argc, char** argv)
+{
+	//tao vi tri
+	glutInit(&argc, argv);               //thiet lap che do do hoa, ktra man hinh
+	glutInitDisplayMode(GLUT_RGB);			//thiet lap mo hinh hien thi
+	glutInitWindowSize(800, 800);			//thiet lap kich co cua so hien thi
+	glutInitWindowPosition(0, 0);			//......... vi tri hien thi
+	//tao cua so
+	glutCreateWindow("Bai Tap Lon");	//tao 1 cua so
+	init();
+	glutDisplayFunc(display);
+	glutIdleFunc(dichuyen); //
+	glutReshapeFunc(reshape);
+	glutMainLoop();
+	return 0;
+}
